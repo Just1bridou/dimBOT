@@ -1,0 +1,1 @@
+node /volume1/web/bot/dim/just1bridou1/bot.js

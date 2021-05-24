@@ -1,0 +1,12 @@
+{
+    "name": "dimBOT",
+    "dependencies": {
+        "discord.js": "^12.5.1",
+        "dotenv": "10.0.0",
+        "node-ical": "^0.13.0"
+    },
+
+    "scripts": {
+        "start": "node bot.js"
+    }
+}
