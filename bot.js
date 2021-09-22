@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const ical = require('node-ical');
-const ADE = ical.sync.parseFile('ADECal.ics');
+const ADE = ical.sync.parseFile('MDS.ics');
 const Client = new Discord.Client();
 
 const dotenv = require('dotenv');
@@ -141,21 +141,19 @@ function displayCours(tab, message) {
 		message.channel.send(courMsg);	
 	}
 
-	for(let event of tab) {
+	//for(let event of tab) {
 
-		console.log(event)
-
-		let dateEventStart = new Date(event.start)
-		let dateEventEnd = new Date(event.end)
+		//console.log(event)
 
 		var courMsg = new Discord.MessageEmbed()
 			.setColor('#FF3636')
-			.setTitle(event.summary)
+			//.setTitle(event.description.val)
 			.setDescription(
-				/*'\nLe: ' + DAYS[dateEventStart.getDay()] + ' ' + dateEventStart.getDate() + ' ' + MONTHS[dateEventStart.getMonth()] + ' ' + dateEventStart.getFullYear() + '\n\n'+
-				'De: ' +*/ '**'+dateEventStart.getHours() + ':' + ('0' + dateEventStart.getMinutes()).slice(-2) + ' - ' + dateEventEnd.getHours() + ':' + ('0' + dateEventEnd.getMinutes()).slice(-2)+'**'
+
+				embedMessage(tab)
+
 			)
-			.setFooter(event.location);
+			//.setFooter("Salle " + event.location.val);
 		
 		if(message == null) {	
 			for(let i = 0 ; i<SERVERS.length ; i++) {
@@ -164,8 +162,25 @@ function displayCours(tab, message) {
 		} else {
 			message.channel.send(courMsg);	
 		}
+	//}
+
+}
+
+function embedMessage(cours) {
+	var str = ""
+	for(let event of cours) {
+
+		let dateEventStart = new Date(event.start)
+		let dateEventEnd = new Date(event.end)
+
+		str += '**🕔 '+dateEventStart.getHours() + ':' + ('0' + dateEventStart.getMinutes()).slice(-2) + ' - ' + dateEventEnd.getHours() + ':' + ('0' + dateEventEnd.getMinutes()).slice(-2)+'**\n\n'
+		str += event.description.val + "\n"
+		str += "*🚪 Salle " + event.location.val + "*"
+
+		str += "\n\n————————————————————\n\n"
 	}
 
+	return str
 }
 
 function startCounting() {
